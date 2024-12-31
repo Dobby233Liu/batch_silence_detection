@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "run on act1",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "__main__.py",
+            "console": "integratedTerminal",
+            "args": ["E:\\joshw\\ut_dusttale_sp\\act1"]
+        }
+    ]
+}
