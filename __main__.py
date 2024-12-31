@@ -22,10 +22,12 @@ def ms_to_samples(ms, frame_rate):
     # This should absolutely return a int, otherwise vgmstream will interpret the number as seconds
     return ceil(ms / 1000 * frame_rate)
 
-def snap_to_bpm(ms, bpm):
+def snap_to_bpm(ms, bpm, roundover_hack=False):
     """Snap a given time in milliseconds to the nearest beat based on the specified BPM"""
     if bpm <= 0: return ms
     beat_length = 60 / bpm * 1000
+    if roundover_hack:
+        return ceil(ms / beat_length) * beat_length
     return floor(ms / beat_length) * beat_length
 
 if len(argv) > 1:
@@ -57,6 +59,9 @@ for sound_path in iglob(path.join(work_dir, "*")):
     print(sound_path)
 
     sound_bpm = SNAP_TO_BGM_LUT.get(path.realpath(sound_path), -1)
+    sound_bpm_roundover_hack = False
+    if isinstance(sound_bpm, tuple):
+        sound_bpm, sound_bpm_roundover_hack = sound_bpm
     if sound_bpm > 0:
         print(f"\tBPM override: {sound_bpm}")
     strip_start_only_here = STRIP_START_ONLY or sound_bpm == -100
@@ -69,7 +74,7 @@ for sound_path in iglob(path.join(work_dir, "*")):
     lead_trim = ms_to_samples(lead_trim_ms, frame_rate=sound.frame_rate)
     if not strip_start_only_here:
         end_trim_ms = detect_ending_silence(sound[lead_trim_ms:], silence_threshold=SILENCE_THRESOLD, chunk_size=CHUNK_SIZE)
-        end_trim_ms = snap_to_bpm(end_trim_ms, bpm=sound_bpm)
+        end_trim_ms = snap_to_bpm(end_trim_ms, bpm=sound_bpm, roundover_hack=sound_bpm_roundover_hack)
         if end_trim_ms > lead_trimmed_dur:
             print(f"\tSnapped end silence to beat, but it's longer than the lead trimmed duration ({lead_trimmed_dur} ms)")  
             end_trim_ms = lead_trimmed_dur
