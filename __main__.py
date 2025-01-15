@@ -54,6 +54,8 @@ for sound_path in iglob(path.join(work_dir, "*")):
             with open(sound_txtp_path, "r", encoding="utf-8-sig") as sound_txtp:
                 if TOOL_SIG in sound_txtp.read():
                     print(f"\tClobbering apparently auto-generated {sound_txtp_path}")
+                else:
+                    continue
         else:
             continue
     print(sound_path)
