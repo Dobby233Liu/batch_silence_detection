@@ -58,6 +58,8 @@ for sound_path in iglob(path.join(work_dir, "*")):
                     continue
         else:
             continue
+    if path.exists(path.join(out_dir, path.basename(sound_path) + ".bsdt_ignore")):
+        continue
     print(sound_path)
 
     sound_bpm = SNAP_TO_BGM_LUT.get(path.realpath(sound_path), -1)
