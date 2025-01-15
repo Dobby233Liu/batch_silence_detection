@@ -43,6 +43,9 @@ if STRIP_START_ONLY:
 
 
 for sound_path in iglob(path.join(work_dir, "*")):
+    if path.exists(path.join(out_dir, path.basename(sound_path) + ".bsdt_ignore")):
+        continue
+
     sound_name_parts = path.splitext(path.basename(sound_path))
     if sound_name_parts[1] not in CHECKED_EXTENSIONS:
         continue
@@ -58,8 +61,6 @@ for sound_path in iglob(path.join(work_dir, "*")):
                     continue
         else:
             continue
-    if path.exists(path.join(out_dir, path.basename(sound_path) + ".bsdt_ignore")):
-        continue
     print(sound_path)
 
     sound_bpm = SNAP_TO_BGM_LUT.get(path.realpath(sound_path), -1)
