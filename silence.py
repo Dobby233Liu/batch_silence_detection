@@ -20,4 +20,4 @@ def detect_ending_silence(sound: pydub.AudioSegment, silence_threshold=-50.0, ch
     return min(max(0, trim_ms), sound.duration_seconds * 1000)
 
 
-__all__ = [*list(filter(lambda x: not x.startswith("_"), dir(pydub.silence))), "detect_ending_silence"]
+__all__ = [*filter(lambda x: not x.startswith("_"), dir(pydub.silence)), "detect_ending_silence"]

@@ -1,6 +1,8 @@
 # Ending silence will not be stripped if "BPM" is set to -100.
 
 SNAP_TO_BGM_LUT = {
+    # these are all direct exports from the composer (not gamerips)
+    # TODO: reestimate
     R"E:\joshw\ut_dusttale_sp\act1\02. 弄好事情 (Set something right).mp3": 53,
     R"E:\joshw\ut_dusttale_sp\act1\03. 你畏惧了的朋友 (Your scared friend).mp3": -100,
     R"E:\joshw\ut_dusttale_sp\act1\04. 敌军士气低落 (Enemies' low morale) (v2).mp3": (91.88, True),
