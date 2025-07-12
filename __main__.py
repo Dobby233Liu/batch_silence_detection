@@ -86,7 +86,7 @@ for sound_path in iglob(path.join(work_dir, "*")):
             end_trim_ms = lead_trimmed_dur
         end_trim_ms = lead_trim_ms + end_trim_ms
         end_trim = ms_to_samples(end_trim_ms, frame_rate=sound.frame_rate)
-    if lead_trim == 0 and (not strip_start_only_here or end_trim == sound.duration_seconds * sound.frame_rate):
+    if lead_trim == 0 and (strip_start_only_here or end_trim == sound.duration_seconds * sound.frame_rate):
         print("\tNo silence detected")
         continue
 
