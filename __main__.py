@@ -35,7 +35,7 @@ if len(argv) > 1:
     work_dir = argv[1]
 else:
     work_dir = input("work dir : ")
-work_dir = path.relpath(work_dir)
+work_dir = path.realpath(work_dir)
 out_dir = work_dir
 
 if STRIP_START_ONLY:
