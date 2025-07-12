@@ -77,6 +77,7 @@ for sound_path in iglob(path.join(work_dir, "*")):
     lead_trim_ms = detect_leading_silence(sound, silence_threshold=SILENCE_THRESOLD, chunk_size=CHUNK_SIZE)
     lead_trimmed_dur = sound.duration_seconds * 1000 - lead_trim_ms
     lead_trim = ms_to_samples(lead_trim_ms, frame_rate=sound.frame_rate)
+    end_trim = -100
     if not strip_start_only_here:
         end_trim_ms = detect_ending_silence(sound[lead_trim_ms:], silence_threshold=SILENCE_THRESOLD, chunk_size=CHUNK_SIZE)
         end_trim_ms = snap_to_bpm(end_trim_ms, bpm=sound_bpm, roundover_hack=sound_bpm_roundover_hack)
@@ -85,12 +86,12 @@ for sound_path in iglob(path.join(work_dir, "*")):
             end_trim_ms = lead_trimmed_dur
         end_trim_ms = lead_trim_ms + end_trim_ms
         end_trim = ms_to_samples(end_trim_ms, frame_rate=sound.frame_rate)
-    if lead_trim == 0 and (strip_start_only_here or end_trim == sound.duration_seconds * sound.frame_rate):
-        print("\tNo silence detected")
+    if lead_trim == 0 and (end_trim == -100 or end_trim == sound.duration_seconds * sound.frame_rate):
+        print("\tNo silence to trim")
         continue
 
     commands = f"#r {lead_trim}"
-    if not strip_start_only_here:
+    if end_trim != -100:
         commands += f" #t {end_trim}"
     print(f"\tStripping config determined: {commands}")
     with open(sound_txtp_path, "w", encoding="utf-8-sig") as sound_txtp:
