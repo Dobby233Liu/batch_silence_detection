@@ -21,7 +21,7 @@ def seg_from_vgmstream(f: str|FileIO, args=[]) -> AudioSegment:
     with subprocess.Popen(
             [shutil.which("vgmstream-cli"),
                 in_path,
-                "-p", "-w", *args],
+                "-p", *args],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=False,
